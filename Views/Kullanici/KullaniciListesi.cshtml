@@ -1,0 +1,27 @@
+﻿@using UmotaRedEye.Models.Dto
+@model KullaniciListesiViewModel
+
+@if (Model != null && !Model.IsSuccess)
+{
+    <div class="alert alert-danger" role="alert">
+        @Model.ErrorMessage
+    </div>
+}
+
+@if (Model != null && Model.kullaniciList != null)
+{
+    <ul class="list-group">
+
+        @foreach (var item in Model.kullaniciList)
+        {
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                @item.Adi @item.Soyadi (@item.Email)
+                @if (item.Admin){
+                    <span class="badge badge-primary badge-pill">Yönetici</span>
+                }
+                
+            </li>
+        }
+       
+    </ul>
+}

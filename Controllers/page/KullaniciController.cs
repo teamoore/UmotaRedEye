@@ -44,5 +44,15 @@ namespace UmotaRedEye.Controllers.page
             ViewBag.KullaniciId = HttpContext.Session.GetString("kullaniciId");
             return View(model);
         }
+
+        public async Task<IActionResult> KullaniciListesi()
+        {
+            var kl = await _kullaniciService.GetKullaniciList();
+
+            var model = new KullaniciListesiViewModel();
+            model.kullaniciList = kl;
+
+            return View(model);
+        }
     }
 }
