@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using UmotaRedEye.Models;
+using UmotaRedEye.Models.Dto;
 
 namespace UmotaRedEye.Controllers.api
 {

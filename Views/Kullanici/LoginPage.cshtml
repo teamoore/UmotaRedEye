@@ -1,0 +1,11 @@
+﻿@using UmotaRedEye.Models.Dto
+@model LoginRequestViewModel
+
+@using (Html.BeginForm("Login","Kullanici",FormMethod.Post))
+{
+    <div class="form-group">
+        <div>@Html.TextBoxFor(m => m.Email)</div>
+        <div>@Html.TextBoxFor(m => m.Sifre)</div>
+        <div><input type="submit" value="Submit" /></div>
+    </div>
+}
