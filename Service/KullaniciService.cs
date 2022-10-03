@@ -7,12 +7,10 @@ namespace UmotaRedEye.Service
 {
     public class KullaniciService
     {
-        private readonly IConfiguration _configuration;
         private readonly string _connectionString;
         public KullaniciService(IConfiguration configuration)
         {
-            this._configuration = configuration;
-            this._connectionString = _configuration.GetConnectionString("UmotaSalkimDb");
+            this._connectionString = configuration.GetConnectionString("UmotaSalkimDb");
         }
         public void AddUser(Kullanici kullanici)
         {
