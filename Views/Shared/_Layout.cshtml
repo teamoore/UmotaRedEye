@@ -29,9 +29,20 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Kullanici" asp-action="LoginPage">Kullanıcı Girişi</a>
-                        </li>
+                        @if (Context.Session.Get("kullaniciId") == null)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Kullanici" asp-action="LoginPage">Kullanıcı Girişi</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                @(System.Text.Encoding.Default.GetString(Context.Session.Get("fullName")))
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Kullanici" asp-action="Logout">Çıkış</a>
+                            </li>
+                        }
+                        
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Kullanici" asp-action="KullaniciListesi">Kullanıcı Listesi</a>
                         </li>

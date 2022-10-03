@@ -7,12 +7,10 @@ namespace UmotaRedEye.Controllers.page
 {
     public class KullaniciController : Controller
     {
-        private IConfiguration Configuration;
-        private KullaniciService _kullaniciService;
+        private readonly KullaniciService _kullaniciService;
         public KullaniciController(IConfiguration _configuration)
         {
-            Configuration = _configuration;
-            _kullaniciService = new KullaniciService(Configuration);
+            _kullaniciService = new KullaniciService(_configuration);
         }
 
         public IActionResult Index()
@@ -28,6 +26,7 @@ namespace UmotaRedEye.Controllers.page
             if (k != null)
             {
                 HttpContext.Session.SetString("kullaniciId", k.Id.ToString());
+                HttpContext.Session.SetString("fullName", String.Format("{0} {1}", k.Adi, k.Soyadi));
                 return RedirectToAction("StokGiris", "Stok");
             }
             else
@@ -53,6 +52,12 @@ namespace UmotaRedEye.Controllers.page
             model.kullaniciList = kl;
 
             return View(model);
+        }
+
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("Index","Home");
         }
     }
 }
