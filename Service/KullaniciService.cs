@@ -32,7 +32,7 @@ namespace UmotaRedEye.Service
             {
                 conn.Open();
 
-                var result = conn.QueryFirstOrDefault<Kullanici>("select Id,Adi,Soyadi,Email,Sifre,DepoId,Admin,OlusturulmaTarihi from Kullanici where Email = @email and Sifre = @sifre",new {email = email, sifre = sifre});
+                var result = conn.QueryFirstOrDefault<Kullanici>("select Id,Adi,Soyadi,Email,Sifre,DepoId,Admin,OlusturmaTarihi from Kullanici where Email = @email and Sifre = @sifre",new {email = email, sifre = sifre});
 
                 conn.Close();
 

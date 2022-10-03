@@ -25,12 +25,24 @@ namespace UmotaRedEye.Controllers.page
         public IActionResult Login(LoginRequestViewModel request)
         {
             var k = _kullaniciService.GetKullaniciByLogin(request.Email, request.Sifre);
-            return View();
+            if (k != null)
+            {
+                HttpContext.Session.SetString("kullaniciId", k.Id.ToString());
+                return RedirectToAction("StokGiris", "Stok");
+            }
+            else
+            {
+                request.ErrorMessage = "Kullanıcı adı ve/veya şifre hatalı girdiniz";
+                return RedirectToAction("LoginPage",request);
+            }
+                
+
         }
 
-        public IActionResult LoginPage()
-        {
-            return View();
+        public IActionResult LoginPage(LoginRequestViewModel model)
+        {        
+            ViewBag.KullaniciId = HttpContext.Session.GetString("kullaniciId");
+            return View(model);
         }
     }
 }
