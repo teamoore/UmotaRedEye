@@ -58,7 +58,13 @@ namespace UmotaRedEye.Controllers.page
         {
             var model = new KullaniciEditViewModel();
             model.kullanici = await _kullaniciService.GetKullanici(kullaniciId);
+            return View(model);
+        }
 
+        public async Task<IActionResult> KullaniciAdd()
+        {
+            var model = new KullaniciEditViewModel();
+            model.kullanici = new Kullanici();
             return View(model);
         }
 
@@ -70,10 +76,18 @@ namespace UmotaRedEye.Controllers.page
             return RedirectToAction("KullaniciListesi");
         }
 
+        [HttpPost]
+        public IActionResult AddKullanici(KullaniciEditViewModel model)
+        {
+            var r = _kullaniciService.AddKullanici(model.kullanici);
+
+            return RedirectToAction("KullaniciListesi");
+        }
+
         public IActionResult Logout()
         {
             HttpContext.Session.Clear();
-            return RedirectToAction("Index","Home");
+            return RedirectToAction("LoginPage");
         }
     }
 }
