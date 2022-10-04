@@ -54,6 +54,22 @@ namespace UmotaRedEye.Controllers.page
             return View(model);
         }
 
+        public async Task<IActionResult> KullaniciEdit(int kullaniciId)
+        {
+            var model = new KullaniciEditViewModel();
+            model.kullanici = await _kullaniciService.GetKullanici(kullaniciId);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult SaveKullanici(KullaniciEditViewModel model)
+        {
+            var r = _kullaniciService.SaveKullanici(model.kullanici);
+
+            return RedirectToAction("KullaniciListesi");
+        }
+
         public IActionResult Logout()
         {
             HttpContext.Session.Clear();
