@@ -29,29 +29,29 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        @if (Context.Session.Get("kullaniciId") == null)
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Kullanici" asp-action="LoginPage">Kullanıcı Girişi</a>
-                            </li>
-                        }
-                        else
-                        {
-                            <li class="nav-item">
-                                @(System.Text.Encoding.Default.GetString(Context.Session.Get("fullName")))
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Kullanici" asp-action="Logout">Çıkış</a>
-                            </li>
-                        }
-                        
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Kullanici" asp-action="KullaniciListesi">Kullanıcı Listesi</a>
-                        </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Stok" asp-action="StokGiris">Stok Girişi</a>
                         </li>
-                        
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Kullanici" asp-action="KullaniciListesi">Kullanıcı Listesi</a>
+                        </li>
                     </ul>
+
                 </div>
+                <form class="d-flex" role="search">
+                    @if (Context.Session.Get("kullaniciId") == null)
+                    {
+                        <button class="btn btn-outline-success" type="submit" asp-area="" asp-controller="Kullanici" asp-action="LoginPage">Giriş</button>
+                    }
+                    else
+                    {
+                        <span class="navbar-text">
+                            @(System.Text.Encoding.Default.GetString(Context.Session.Get("fullName")))
+                        </span>
+                        @:&nbsp;
+                        <button class="btn btn-outline-success" type="submit" asp-area="" asp-controller="Kullanici" asp-action="Logout">Çıkış</button>
+                    }
+                </form>
             </div>
         </nav>
     </header>
@@ -63,7 +63,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2022 - UmotaRedEye - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2022 - Umota Yazılım
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
