@@ -1,4 +1,4 @@
-﻿namespace UmotaRedEye.Models.Dto.Depo
+﻿namespace UmotaRedEye.Models.Domain
 {
     public class Depo
     {

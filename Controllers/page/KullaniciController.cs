@@ -43,7 +43,6 @@ namespace UmotaRedEye.Controllers.page
 
         public IActionResult LoginPage(LoginRequestViewModel model)
         {        
-            ViewBag.KullaniciId = HttpContext.Session.GetString("kullaniciId");
             return View(model);
         }
 

@@ -2,8 +2,6 @@
 using System.Data;
 using System.Data.SqlClient;
 using UmotaRedEye.Models.Domain;
-using UmotaRedEye.Models.Dto.Depo;
-
 
 namespace UmotaRedEye.Service
 {
@@ -22,6 +20,7 @@ namespace UmotaRedEye.Service
                 conn.Open();
 
                 var result = await conn.QueryAsync<Depo>("select Id,DepoAdi from Depo with(nolock)");
+
                 conn.Close();
 
                 return result;
