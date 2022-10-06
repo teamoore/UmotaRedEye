@@ -12,20 +12,6 @@ namespace UmotaRedEye.Service
         {
             this._connectionString = configuration.GetConnectionString("UmotaSalkimDb");
         }
-        public void AddUser(Kullanici kullanici)
-        {
-            using (IDbConnection conn = new SqlConnection(_connectionString))
-            {
-                conn.Open();
-
-                conn.Execute("insert into Kullanici (Adi,Soyadi,Email,Sifre,Status,Admin,OlusturmaTarihi,DepoId) " +
-                    "values (@Adi,@Soyadi,@Email,@Sifre,@Status,@Admin,getdate(),@DepoId)",
-                    kullanici);
-
-                conn.Close();
-            }
-        }
-
         public Kullanici GetKullaniciByLogin(string email, string sifre)
         {
             using (IDbConnection conn = new SqlConnection(_connectionString))
@@ -66,7 +52,21 @@ namespace UmotaRedEye.Service
                 return result;
             }
         }
+        public async Task<bool> AddKullanici(Kullanici kullanici)
+        {
+            using (IDbConnection conn = new SqlConnection(_connectionString))
+            {
+                conn.Open();
 
+                var result = await conn.ExecuteAsync("insert into Kullanici (Adi,Soyadi,Email,Sifre,Status,Admin,OlusturmaTarihi,DepoId) " +
+                    "values (@Adi,@Soyadi,@Email,@Sifre,@Status,@Admin,getdate(),@DepoId)",
+                    kullanici);
+
+                conn.Close();
+
+                return result > 0;
+            }
+        }
         public async Task<bool> SaveKullanici(Kullanici kullanici)
         {
             using (IDbConnection conn = new SqlConnection(_connectionString))

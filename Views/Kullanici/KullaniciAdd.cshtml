@@ -3,12 +3,10 @@
 
 @if (Model != null && Model.kullanici != null)
 {
-    @using (Html.BeginForm("SaveKullanici", "Kullanici", FormMethod.Post))
+    @using (Html.BeginForm("AddKullanici", "Kullanici", FormMethod.Post))
     {
-        @Html.HiddenFor(m => m.kullanici.Id)
-
-        <h4>Kullanıcı Düzenle</h4>
-
+        <h4>Yeni Kullanıcı Ekle</h4>
+     
         <div class="form-group">
             <label for="exampleInputEmail1">Ad</label>
             @Html.TextBoxFor(m => m.kullanici.Adi, new { @class = "form-control" })
@@ -24,10 +22,6 @@
         <div class="form-group">
             <label for="exampleInputPassword1">Şifre</label>
             @Html.TextBoxFor(m => m.kullanici.Sifre, new { @class = "form-control" })
-        </div>
-        <div class="form-group">
-            <label for="exampleInputPassword1">Admin</label>
-            @Html.CheckBoxFor(m => m.kullanici.Admin, new { @class = "form-control" })
         </div>
         <div class="form-group">
             <label for="exampleInputPassword1">Depo</label>
