@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using UmotaRedEye.Models.Domain;
 using UmotaRedEye.Models.Dto;
 using UmotaRedEye.Service;
@@ -20,6 +21,7 @@ namespace UmotaRedEye.Controllers
             _malzemeHareketService = new MalzemeHareketService(configuration);
         }
 
+        [Authorize]
         public async Task<IActionResult> StokGiris(MalzemeHareketViewModel model)
         {
             if (model == null)

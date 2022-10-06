@@ -1,5 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Security.Claims;
 using UmotaRedEye.Models.Domain;
 using UmotaRedEye.Models.Dto;
 using UmotaRedEye.Service;
@@ -30,7 +34,51 @@ namespace UmotaRedEye.Controllers.page
             {
                 HttpContext.Session.SetString("kullaniciId", k.Id.ToString());
                 HttpContext.Session.SetString("fullName", String.Format("{0} {1}", k.Adi, k.Soyadi));
-                return RedirectToAction("StokGiris", "Stok");
+
+                var claims = new List<Claim>();
+                var claim = new Claim(ClaimTypes.NameIdentifier, request.Email);
+                claims.Add(claim);
+                claim = new Claim(ClaimTypes.Name, request.Email);
+                claims.Add(claim);
+
+                var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                var authProperties = new AuthenticationProperties
+                {
+                    //AllowRefresh = <bool>,
+                    // Refreshing the authentication session should be allowed.
+
+                    //ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(10),
+                    // The time at which the authentication ticket expires. A 
+                    // value set here overrides the ExpireTimeSpan option of 
+                    // CookieAuthenticationOptions set with AddCookie.
+
+                    //IsPersistent = true,
+                    // Whether the authentication session is persisted across 
+                    // multiple requests. When used with cookies, controls
+                    // whether the cookie's lifetime is absolute (matching the
+                    // lifetime of the authentication ticket) or session-based.
+
+                    //IssuedUtc = <DateTimeOffset>,
+                    // The time at which the authentication ticket was issued.
+
+                    //RedirectUri = <string>
+                    // The full path or absolute URI to be used as an http 
+                    // redirect response value.
+                };
+
+                ClaimsPrincipal principal = new ClaimsPrincipal(claimsIdentity);
+
+                HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+                                                                  principal,
+                                                                  authProperties);
+
+
+                string returnUrl = HttpContext.Request.Query["ReturnUrl"];
+                if (!String.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+                    return Redirect(returnUrl);
+                else
+                    return RedirectToAction("StokGiris", "Stok");
             }
             else
             {
@@ -46,6 +94,7 @@ namespace UmotaRedEye.Controllers.page
             return View(model);
         }
 
+        [Authorize]
         public async Task<IActionResult> KullaniciListesi()
         {
             var kl = await _kullaniciService.GetKullaniciList();
@@ -56,6 +105,7 @@ namespace UmotaRedEye.Controllers.page
             return View(model);
         }
 
+        [Authorize]
         public async Task<IActionResult> KullaniciEdit(int kullaniciId)
         {
             var model = new KullaniciEditViewModel();
@@ -73,6 +123,7 @@ namespace UmotaRedEye.Controllers.page
             return View(model);
         }
 
+        [Authorize]
         public async Task<IActionResult> KullaniciAdd()
         {
             var model = new KullaniciEditViewModel();
@@ -92,6 +143,7 @@ namespace UmotaRedEye.Controllers.page
             return View(model);
         }
 
+        [Authorize]
         [HttpPost]
         public IActionResult SaveKullanici(KullaniciEditViewModel model)
         {
@@ -100,6 +152,7 @@ namespace UmotaRedEye.Controllers.page
             return RedirectToAction("KullaniciListesi");
         }
 
+        [Authorize]
         [HttpPost]
         public IActionResult AddKullanici(KullaniciEditViewModel model)
         {
@@ -108,8 +161,10 @@ namespace UmotaRedEye.Controllers.page
             return RedirectToAction("KullaniciListesi");
         }
 
+        [Authorize]
         public IActionResult Logout()
         {
+            HttpContext.SignOutAsync();
             HttpContext.Session.Clear();
             return RedirectToAction("LoginPage");
         }
