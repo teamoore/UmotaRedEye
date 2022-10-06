@@ -46,7 +46,7 @@ namespace UmotaRedEye.Controllers
         }
 
 
-        [HttpPost]
+        [HttpGet]
         public async Task<IActionResult> DeleteMalzemeHareket(string id,string fisId)
         {
             await _malzemeHareketService.Delete(id);
