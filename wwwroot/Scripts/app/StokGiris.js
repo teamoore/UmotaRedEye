@@ -1,14 +1,9 @@
 ﻿var barcodeData = [];
 
 function SaveStok(barcode) {
-    $.umota.callService({
-        service: '../StokData/SaveStok',
-        request: { Barcode: barcode, Format: 'EAN_13'},
-        onSuccess: onResponseSuccess,               
-        onError: function (response) {
-            $.tg.playError();
-        }
-    });
+    let barcodeInput = document.getElementById("Barcode");
+    barcodeInput.value = barcode; 
+    $.tg.playSuccess();
 }
 
 function onResponseSuccess(response) {
